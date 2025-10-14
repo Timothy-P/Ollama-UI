@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Timothy-P's Ollama UI - Create Model</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='createScript.js') }}"></script>
+</head>
+<body>
+    <label for="modelSelect">Select a model:</label>
+    <select title="Select a model" name="modelSelect" id="modelSelect">
+        <option id="starterOption" value="Select a model">Select a model</option>
+    </select>
+
+    <br>
+
+
+    <label for="modelName">Input a model name:</label>
+    <input name="Model Name" placeholder="Input a name for the model" id="modelName">
+
+    <br>
+
+
+    <label for="sysPrompt">Input a system prompt:</label>
+    <input name="System Prompt" placeholder="Input a system prompt for the model" id="sysPrompt">
+
+    <br>
+    
+    <button title="Create Model" type="button" onclick="createModel()">Create Model</button>
+
+    <br><br>
+    <button type="button" onclick="window.open('/', '_self')">Back</button>
+</body>
+
+</html>

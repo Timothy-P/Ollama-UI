@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Timothy-P's Ollama UI - Settings</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='settingsScript.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</head>
+<body>
+    <!--<h1>
+        Hello!
+    </h1>
+    <p>
+        This isn't finished yet. You should check back later when there is something to see!
+    </p>
+    <button onclick="window.open('/', '_self')">Back</button>-->
+    <input id="elm" placeholder="Element to request"> <input id="setting" placeholder="Setting to request"> <button onclick="settingRequest()">Send</button>
+
+    <!-- Temporary. Will be changed soon. -->
+    <p id="output"></p>
+
+    <!-- Probably gonna let the user input the colors if they want. And, of course, change text sizes and such. -->
+    <div>
+        
+    </div>
+</body>
+</html>

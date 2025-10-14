@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timothy-P's Ollama UI</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
+</head>
+<body>
+    <button type="button" onclick="window.open(`/settings`, '_self')">Settings</button>
+    <button type="button" onclick="window.open(`/interact`, '_self')">Interact</button>
+    <button type="button" onclick="window.open(`/create`, '_self')">Create</button>
+    
+    <!--<div id="slide">Hello!</div>-->
+    <h1>
+        Welcome.
+    </h1>
+    <p>
+        As you can tell, this is an early version. 
+        Not everything will work flawlessly or will be working at all (some stuff is still in development).
+        
+    </p>
+
+    <noscript>
+        <h1>Hello.</h1>
+        <p>
+            If you are reading this, you don't have Javascript enabled.
+            Either you have disabled Javascript using an adblocker (which you don't need for this) or in your browser.
+            I recommend checking both, as you can't use the project otherwise.
+        </p>
+    </noscript>
+
+</body>
+</html>

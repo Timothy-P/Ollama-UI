@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>Timothy-P's Ollama UI - Interact</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='interactScript.js') }}"></script>
+</head>
+<body>
+    <!-- Settigns button -->
+    <div id="settingsDiv">
+        <button type="button" onclick="window.open('/settings', '_self')" id="settingsButt">
+            <img alt="Settings icon" src="{{ url_for('static', filename='settings.ico') }}">
+        </button>
+    </div>
+    <!-- The menu itself -->
+    <div id="MenuInteractDiv">
+        <h1>Model Interaction</h1>
+
+        <!--
+            "From Hell's heart, I stab at thee!" -Captain Ahab from Moby Dick
+            That's how I feel about this.
+            It sucks to rework everything when you thought you had it working properly.
+        -->
+        <!-- Might put it in another div as to put the "chats" beside the history. -->
+        <div id="chatList"></div>
+
+        <div id="chatMessages">
+            <!-- Left blank intentionally. Gets populated during runtime. Ignore if running. -->
+        </div>
+        <div id="interactForm">
+            <select title="Select a model" name="modelSelect" id="modelSelect">
+                <option id="starterOption" value="Select a model">Select a model</option>
+            </select>
+            <textarea autocomplete="off" autocapitalize="on" name="promptInput" id="promptInput" placeholder="Enter your message here" required></textarea>
+            <input id="chat" value="0" hidden="true" disabled />
+            <button type="button" onclick="sendPrompt()">Send Prompt</button>
+        </div>
+
+        <div id="chatCreation">
+            <button type="button" title="Create Chat" onclick="createChat()">Create Chat</button>
+        </div>
+        
+    </div>
+    <button type="button" onclick="window.open('/', '_self')">Back</button>
+
+</body>
+</html>

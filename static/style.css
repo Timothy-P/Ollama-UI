@@ -1,0 +1,118 @@
+@font-face {
+  font-family: "Ubuntu Regular";
+  src: url("Ubuntu-R.ttf") format("truetype");
+}
+
+:root {
+    font-family: "Ubuntu Regular", Arial, Helvetica, sans-serif;
+    background-color: #deb887;
+    scrollbar-width: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    -ms-overflow-style: none;
+}
+
+#MenuInteractDiv {
+    justify-content: center;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, auto-fill);
+    grid-template-columns: repeat(auto-fill, auto-fill);
+}
+#promptInput {
+    border-radius: 10px;
+    border-style: solid;
+    border-color: black;
+    display: inline flex;
+    resize: none;
+    overflow: scroll;
+}
+button {
+    display: inline flex;
+}
+p {
+    justify-content: center;
+    display: flex;
+}
+h1 {
+    justify-content: center;
+    display: flex;
+}
+
+/* 
+Settings button 
+*/
+#settingsDiv {
+  width: auto;
+  position: absolute;
+  right: 0%;
+  display: flex;
+  right: 0%;
+  top: 0%;
+  margin: 10px;
+  padding-right: 42.9px;
+}
+#settingsButt {
+    background-color: transparent;
+    border: transparent;
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    width: fit-content;
+    height: fit-content;
+}
+#settingsButt img {
+    background-color: inherit;
+    width: 51.2px;
+    height: 51.2px;
+}
+
+/*
+Chat message div
+*/
+#chatMessages {
+    background-color: chocolate;
+    height: 580px;
+    width: 590.233px;
+    position: relative;
+    overflow: scroll;
+}
+.messageWrapper {
+    display: flex;
+    justify-content: flex-start; /* default, for assistant */
+    margin: 5px 0;
+}
+
+.assistantMessage {
+    background-color: cadetblue;
+    min-width: 150px;
+    width: fit-content;
+    max-width: 300px;
+    min-height: 50px;
+    padding: 5px;
+    border-radius: 8px;
+    margin-left: 5px;
+}
+
+.userMessage {
+    background-color: cornflowerblue;
+    min-width: 150px;
+    width: fit-content;
+    max-width: 300px;
+    min-height: 50px;
+    padding: 5px;
+    border-radius: 8px;
+    margin-left: auto; /* pushes to the right */
+    margin-right: 5px;
+    display: flex;
+    justify-content: right;
+}
+
+/* Chat selector */
+.chatWrapper {
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+}
+.chatWrapper button {
+    border-radius: 12px;
+}
