@@ -15,7 +15,6 @@ class Settings():
         Loads a file containing the desired settings.
         Supports both JSON and CSS files.
         """
-        # This was modified using AI. Most of this is my doing.
 
         try:
             # If JSON, loads
@@ -98,11 +97,12 @@ class Settings():
                     # Set commentCheck to false if "*/" has been used
                     if bool(line.find("*/")+1): commentCheck = True
 
+                    # Checking if line isn't empty, a comment is currently active, or if the current line is a comment
                     if line != "\n" and commentCheck and not line.find("/*")+1 and not line.find("*/")+1:
                         
                         # Getting the key
                         if line.find("{") != -1:
-                            key = line[0:line.find("{")-1]
+                            key = line[0:line.find("{")].removesuffix(" ")
 
                         # Getting the value(s)
                         elif line.find("}") == -1:
@@ -132,11 +132,11 @@ class Settings():
 
         returnStr = ""
         for i in json.keys():
-            returnStr += i+"{\\n\n"
+            returnStr += i+"{\n"
             for f in json[i].keys():
-                returnStr += f"    {f}: {json[i][f]};\\n\n"
+                returnStr += f"    {f}:{json[i][f]}\n"
 
-            returnStr += "}\\n\n"
+            returnStr += "}\n\n"
         return returnStr
     
     def editSetting(self, elm:str, setting:str, newVal:str) -> bool:

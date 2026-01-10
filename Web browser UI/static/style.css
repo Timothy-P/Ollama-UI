@@ -1,11 +1,11 @@
 @font-face {
-  font-family: "Ubuntu Regular";
-  src: url("Ubuntu-R.ttf") format("truetype");
+    font-family: "Ubuntu Regular";
+    src: url("Ubuntu-R.ttf") format("truetype");
 }
 
 :root {
     font-family: "Ubuntu Regular", Arial, Helvetica, sans-serif;
-    background-color: #deb887;
+    background-color:#deb887;
     scrollbar-width: none;
     -ms-hyphens: none;
     hyphens: none;
@@ -18,6 +18,7 @@
     grid-template-rows: repeat(auto-fill, auto-fill);
     grid-template-columns: repeat(auto-fill, auto-fill);
 }
+
 #promptInput {
     border-radius: 10px;
     border-style: solid;
@@ -26,31 +27,31 @@
     resize: none;
     overflow: scroll;
 }
+
 button {
     display: inline flex;
 }
+
 p {
     justify-content: center;
     display: flex;
 }
+
 h1 {
     justify-content: center;
     display: flex;
 }
 
-/* 
-Settings button 
-*/
 #settingsDiv {
-  width: auto;
-  position: absolute;
-  right: 0%;
-  display: flex;
-  right: 0%;
-  top: 0%;
-  margin: 10px;
-  padding-right: 42.9px;
+    width: auto;
+    position: absolute;
+    right: 0%;
+    display: flex;
+    top: 0%;
+    margin: 10px;
+    padding-right: 42.9px;
 }
+
 #settingsButt {
     background-color: transparent;
     border: transparent;
@@ -60,15 +61,13 @@ Settings button
     width: fit-content;
     height: fit-content;
 }
+
 #settingsButt img {
     background-color: inherit;
     width: 51.2px;
     height: 51.2px;
 }
 
-/*
-Chat message div
-*/
 #chatMessages {
     background-color: chocolate;
     height: 580px;
@@ -76,9 +75,9 @@ Chat message div
     position: relative;
     overflow: scroll;
 }
+
 .messageWrapper {
-    display: flex;
-    justify-content: flex-start; /* default, for assistant */
+    display: grid;
     margin: 5px 0;
 }
 
@@ -101,18 +100,50 @@ Chat message div
     min-height: 50px;
     padding: 5px;
     border-radius: 8px;
-    margin-left: auto; /* pushes to the right */
     margin-right: 5px;
     display: flex;
     justify-content: right;
+    justify-self: end;
 }
 
-/* Chat selector */
 .chatWrapper {
     width: fit-content;
     height: fit-content;
     display: inline-block;
 }
+
 .chatWrapper button {
     border-radius: 12px;
+}
+
+#output {
+    justify-content: left;
+}
+
+#settingsBox {
+    --rowSize: 30px;
+    --columnSize: 300px;
+    display: grid;
+    border-color: black;
+    background-color: whitesmoke;
+    grid-template-columns: var(--columnSize) var(--columnSize);
+    grid-template-rows: repeat(5,var(--rowSize));
+    grid-auto-rows: var(--rowSize);
+    row-gap: 10px;
+    column-gap: 50px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.settingsBoxP {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    align-items: center;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 0.75em;
+  max-width: 100%;
+  white-space: pre;
 }

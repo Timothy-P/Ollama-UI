@@ -22,6 +22,9 @@ def interact():
 @app.route("/create")
 def create():
     return render_template("create.html")
+@app.route("/credits")
+def credits():
+    return render_template("credits.html")
 
 # The functions
 
@@ -32,32 +35,26 @@ def end_session():
     exit()
 
 # Model interaction functions
-hist = History("chat.txt")
-@app.route("/modelWork/list-models") # Done
+@app.route("/modelWork/list-models")
 async def list_models_route():
     models = await listModels()
     return jsonify({"models": models})
 
-@app.route("/modelWork/send-prompt", methods=["POST"]) # Done
+@app.route("/modelWork/send-prompt", methods=["POST"])
 async def send_prompt_route():
     data = json.loads(request.data)
-    print(data)
     model = data["model"]
     prompt = data["prompt"]
     chat = data["chat"]
     if type(model) == str and type(prompt) == str and type(chat) == str:
         response = await sendPrompt(model, prompt, int(chat))
-        #add([{"role":"user","content":prompt},{"role":"assistant","content":"response"}], int(chat)) # Works
-
-        saveHistory("chat.txt") # Works
 
         return jsonify({"status":"success","response": response})
     
-    saveHistory("chat.txt")
 
     return jsonify({"status":"failure"})
 
-@app.route("/modelWork/create-model", methods=["POST"]) # Done
+@app.route("/modelWork/create-model", methods=["POST"])
 async def create_model_route():
     data = json.loads(request.data)
     name = data["name"]
@@ -69,7 +66,7 @@ async def create_model_route():
     else:
         return jsonify({"status":"failure"})
 
-@app.route("/modelWork/running", methods=["POST"]) # Done
+@app.route("/modelWork/running", methods=["POST"])
 def running_route():
     return jsonify(running())
 
@@ -78,9 +75,8 @@ def running_route():
 def get_history_route():
     data = json.loads(request.get_data())
     chat = data["chat"]
-    getHistory(chat)
     return jsonify({"status":"success", "history":getHistory(chat)})
-@app.route("/modelWork/remove-history", methods=["POST"]) # Done
+@app.route("/modelWork/remove-history", methods=["POST"])
 def remove_history_route():
     item = request.form.get("item")
     chat = request.form.get("chat")
@@ -91,7 +87,7 @@ def remove_history_route():
             return jsonify({"status":"failure"})
     return jsonify({"status":"failure"})
     
-@app.route("/modelWork/edit-history", methods=["POST"]) # Done
+@app.route("/modelWork/edit-history", methods=["POST"])
 def edit_history_route():
     chat = request.form.get("chat")
     role = request.form.get("role")
@@ -104,7 +100,7 @@ def edit_history_route():
             return jsonify({"status":"failure"})
     return jsonify({"status":"failure"})
     
-@app.route("/modelWork/remove-model", methods=["POST"]) # Done
+@app.route("/modelWork/remove-model", methods=["POST"])
 def remove_model_route(model:str):
     if rmModel(model):
         return jsonify({"status":"success"})
@@ -113,7 +109,7 @@ def remove_model_route(model:str):
 
 # Setting functions
 setts = Settings()
-@app.route("/settings/load-settings", methods=["POST"]) # Done
+@app.route("/settings/load-settings", methods=["POST"])
 def load_settings_route():
     file = request.form.get("file")
     if type(file) == str:
@@ -121,17 +117,20 @@ def load_settings_route():
             return jsonify({"status":"success","settings":setts.showSetting()})
     return jsonify({"status":"failure"})
 
-@app.route("/settings/edit-settings", methods=["POST"]) # Done
+@app.route("/settings/edit-settings", methods=["POST"])
 def edit_settings_route():
-    setting = request.form.get("setting")
-    newVal = request.form.get("newVal")
-    elm = request.form.get("elm")
+    data = json.loads(request.data)
+    setting = data["setting"]
+    newVal = data["newVal"]
+    elm = data["elm"]
+
     if type(setting) == str and type(newVal) == str and type(elm) == str:
         if setts.editSetting(elm, setting,newVal):
+            setts.saveSettings("static/style.css")
             return jsonify({"status":"success"})
     return jsonify({"status":"failure"})
     
-@app.route("/settings/delete-setting", methods=["POST"]) # Done
+@app.route("/settings/delete-setting", methods=["POST"])
 def delete_setting_route():
     setting = request.form.get("setting")
     if type(setting) == str:
@@ -163,6 +162,10 @@ def logs_route():
         file.close()
 
     return jsonify({"status":"success"})
+
+@app.errorhandler(404)
+def not_found(e):
+  return render_template("404.html")
 
 webbrowser.open("http://127.0.0.1:5000/")
 

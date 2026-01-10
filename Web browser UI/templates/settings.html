@@ -8,9 +8,8 @@
 
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link id="CSS" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 
-    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='settingsScript.js') }}"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
@@ -23,13 +22,13 @@
         This isn't finished yet. You should check back later when there is something to see!
     </p>
     <button onclick="window.open('/', '_self')">Back</button>-->
-    <input id="elm" placeholder="Element to request"> <input id="setting" placeholder="Setting to request"> <button onclick="settingRequest()">Send</button>
+    <input id="elm" placeholder="Element to request" onkeypress="enterPressed(event)"> <input id="setting" placeholder="Setting to request" onkeypress="enterPressed(event)"> <button type="submit" onclick="settingPresent()">Send</button>
 
     <!-- Temporary. Will be changed soon. -->
-    <p id="output"></p>
+    <!-- <p id="output"></p> -->
 
-    <!-- Probably gonna let the user input the colors if they want. And, of course, change text sizes and such. -->
-    <div>
+    <!-- First attempt. Not sure how it'll go.-->
+    <div id="settingsBox">
         
     </div>
 </body>

@@ -33,6 +33,9 @@ async function sendPrompt() {
         const chat = document.getElementById("chat");
 
         chatBubble(promptInput.value, "user")
+
+        assistantBubble = chatBubble("*Thinking...*", "assistant")
+
         const response = await fetch("/modelWork/send-prompt", { 
             method: "POST", 
             body: JSON.stringify({
@@ -42,11 +45,13 @@ async function sendPrompt() {
             }) 
         });
         const data = await response.json();
-        chatBubble(data.response, "assistant")
+        assistantBubble.children[0].innerHTML = renderAiText(data["response"])
+        promptInput.value = ""
     } catch (err) {
     console.error("Error sending prompt:", err);
     alert("Failed to send prompt. See console for details.");
     };
+
 };
 async function createModel(name, parent, sysMsg) {
     try {
@@ -90,18 +95,9 @@ async function getHistory(chat = 0) {
     alert("Failed to send prompt. See console for details.");
     };
 }
-window.addEventListener("DOMContentLoaded", async function() {
+window.addEventListener("DOMContentLoaded", function () {
     listModels();
-
     chatDiv();
-    // Chat setup; history gathering; temporary
-    const chatData = await getHistory();
-    for (let i = 0; i < chatData.length; i++) {
-        let item = chatData[i];
-
-        chatBubble(item[0]["content"],item[0]["role"]);
-        chatBubble(item[1]["content"],item[1]["role"]);
-    };
 });
 
 // Function for creating the message bubbles
@@ -115,10 +111,15 @@ function chatBubble(content, role) {
     const bubble = document.createElement("div");
     bubble.className = role === "user" ? "userMessage" : // If user, made to be user message
                        role === "assistant" ? "assistantMessage" : ""; // If assistant, made to be assistant message
-    bubble.innerText = content;
+
+    // No idea if it'll work; supposed to do markdown for me
+
+    
+    bubble.innerHTML = renderAiText(content);
     wrapper.appendChild(bubble);
     wrapper.className = "messageWrapper";
     chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
     return wrapper; // Returns the wrapper if needed in the future
 };
 
@@ -134,33 +135,52 @@ async function chatDiv() {
         response = await getHistory(i);
         if (response.length > 0) {
             let chatItem = document.createElement("div");
-            let butt = document.createElement("button");
-            
             chatItem.classList.add("chatWrapper");
+            let butt = document.createElement("button");
             butt.value = i;
             butt.innerText = "Chat "+(i+1);
             chatItem.appendChild(butt);
             chatList.appendChild(chatItem);
             butt.addEventListener("click", async function () {
-                console.log("Button clicked");
                 await selectChat(butt);
             });
         } else {
+            selectChat(0)
             break;
         }
+    };
+    if (chatList.children.length === 0) {
+        let chatItem = document.createElement("div");
+        chatItem.classList.add("chatWrapper");
+        let butt = document.createElement("button");
+        butt.value = 0;
+        butt.innerText = "Chat 1";
+        chatItem.appendChild(butt);
+        chatList.appendChild(chatItem);
+        butt.addEventListener("click", async function () {
+            await selectChat(butt);
+        });
+        selectChat(0);
     };
 };
 
 async function selectChat(elm) {
     document.getElementById("chatMessages").innerHTML = "";
-    document.getElementById("chat").value = elm.value
+    chat = document.getElementById("chat")
+    if (typeof elm === "object") {
+        chat.value = elm.value;
+    } else if (typeof elm === "number") {
+        chat.value = elm;
+    } else {
+        console.log("selectChat: Unexpected data type for \"elm\":"+typeof elm);
+        alert("Unexpected error. Check console for details.");
+    };
 
-    const hist = await getHistory(elm.value);
+    const hist = await getHistory(parseInt(chat.value));
 
     for (let i = 0; i < hist.length; i++) {
         let item = hist[i];
-        chatBubble(item[0]["content"],item[0]["role"]);
-        chatBubble(item[1]["content"],item[1]["role"]);
+        chatBubble(item["content"],item["role"]);
     };
     return true
 };
@@ -171,14 +191,29 @@ function createChat() {
     let newChatNum = chatList.children.length;
 
     let chatItem = document.createElement("div");
+    chatItem.classList.add("chatWrapper");
     let butt = document.createElement("button");
 
     butt.value = newChatNum;
     butt.innerText = "Chat "+(newChatNum+1);
     butt.addEventListener("click", async function () {
-        console.log("Button clicked");
         await selectChat(butt);
     });
     chatItem.appendChild(butt);
     chatList.appendChild(chatItem);
 };
+
+// Markdown/purify stuff
+const converter = new showdown.Converter({
+    tables: true,
+    strikethrough: true,
+    tasklists: true,
+    simpleLineBreaks: true
+});
+
+function renderAiText(text) {
+    const unsafeHtml = converter.makeHtml(text);
+    return DOMPurify.sanitize(unsafeHtml, {
+        USE_PROFILES: { html: true }
+    });
+}

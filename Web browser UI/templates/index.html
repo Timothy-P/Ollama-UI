@@ -7,7 +7,6 @@
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
 </head>
 <body>
     <button type="button" onclick="window.open(`/settings`, '_self')">Settings</button>
@@ -18,12 +17,17 @@
     <h1>
         Welcome.
     </h1>
-    <p>
-        As you can tell, this is an early version. 
-        Not everything will work flawlessly or will be working at all (some stuff is still in development).
-        
-    </p>
-
+    <div style="display: flex; justify-content: center;">
+        <p style="display: block;">
+                As you can tell, this is an early version. <br>
+                <br>
+                Not everything will work flawlessly or will be working at all (some stuff is still in development).<br>
+                <br>
+                However, do note anything the model says is <strong style="text-decoration: underline;">not</strong> my responsibility.<br>
+                <br>
+                The bugs, however, are. Please report them <a href="https://github.com/Timothy-P/Ollama-UI/issues", target="_new">here</a>. 
+        </p>
+    </div>
     <noscript>
         <h1>Hello.</h1>
         <p>

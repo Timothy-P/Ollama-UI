@@ -81,9 +81,9 @@ class History:
         chat_key = f"chat-{chat}"
         if chat_key not in self.value:
             self.value[chat_key] = []
-            self.value[chat_key].append(addition)
+            self.value[chat_key].append(addition[0]); self.value[chat_key].append(addition[1])
         else:
-            self.value[chat_key].append(addition)
+            self.value[chat_key].append(addition[0]); self.value[chat_key].append(addition[1])
         return True
 
     def remove(self, remove: int, chat: int) -> bool:
@@ -148,8 +148,11 @@ class History:
 
         Warning: This will delete current contents
         """
-        
-        loadFile = open(file, "r")
+        try:
+            loadFile = open(file, "r")
+        except FileNotFoundError:
+            print(f">>> interact.py: {file} doesn't exist")
+            return False
         if loadFile.readable():
             contents = loadFile.read()
             if len(contents) > 2:
@@ -172,15 +175,18 @@ async def sendPrompt(model:str, prompt:str, chat:int) -> str:
     """
     Sends the prompt to a model.
 
-    Autosaves to history to chat.
+    Autosaves to chat.
     """
     if (type(model) == None or type(prompt) == None):
         return ""
-    response: ollama.ChatResponse = ollama.chat(model=model, messages=__hist.getHistory(chat))
-    if type(response.message.content) == str:
-         __hist.add([{"role":"user","content":prompt},{"role":"assistant","content":response.message.content}],chat)
-    if type(response.message.content) == str:
-        return response.message.content
+    currentHist = __hist.getHistory(chat).copy()
+    currentHist.append({"role":"user","content":prompt})
+    response: ollama.ChatResponse = ollama.chat(model=model, messages=currentHist, stream=False)
+    content = response["message"]["content"]
+    if type(content) == str:
+        __hist.add([{"role":"user","content":prompt},{"role":"assistant","content":content}],chat)
+        __hist.saveHistory("chats.json")
+        return content
     return ""
 
 def removeHistory(item:int, chat:int) -> bool:
